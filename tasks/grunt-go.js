@@ -102,27 +102,27 @@ module.exports = function (grunt) {
       var self = this;
       var name = self.name || 'go';
 
-
       // ==== read task parameters
-
       var taskArgs = this.args || [];
       grunt.log.debug('Task args: ' + taskArgs);
       if (validateArgs(taskArgs) === false) {
         return false;
       }
-      var action = taskArgs[0];
-      var target = taskArgs[1];
-      var profile = taskArgs[2] || '';
 
-      if (!target || !grunt.config([name, target])) {
+      var action = taskArgs[0];
+      var set = taskArgs[1];
+      var target = taskArgs[2];
+      var profile = taskArgs[3] || '';
+
+      if (!target || !grunt.config([name, set, target])) {
         grunt.log.error('Unable to run task: target \'' + target + '\' not found');
         return false;
       }
 
-      var gruntTaskTargetProfileOpts = grunt.config([name, target, profile]) || {};
-      var gruntTaskProfileOpts = grunt.config([name, 'options', profile]) || {};
-      var gruntTaskTargetOpts = grunt.config([name, target]) || {};
-      var gruntTaskOpts = grunt.config([name, 'options']) || {};
+      var gruntTaskTargetProfileOpts = grunt.config([name, set, target, profile]) || {};
+      var gruntTaskProfileOpts = grunt.config([name, set,  'options', profile]) || {};
+      var gruntTaskTargetOpts = grunt.config([name, set, target]) || {};
+      var gruntTaskOpts = grunt.config([name, set, 'options']) || {};
       var taskOpts = _.defaults(
         gruntTaskTargetProfileOpts,
         gruntTaskProfileOpts,
